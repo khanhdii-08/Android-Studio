@@ -38,11 +38,57 @@ import java.util.List;
 import gun0912.tedbottompicker.TedBottomPicker;
 
 public class MainActivity extends AppCompatActivity {
-    private List<NhanVien> nv_list = new ArrayList<>();
+    private List<NhanVien> nv_list = new ArrayList<NhanVien>();
     private String[] dv_list;
     private String donVi;
     private ImageView img;
     private Bitmap bit =null;
+
+
+    private void requestPermissions(){
+        PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                openImagePicker();
+                Toast.makeText(MainActivity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onPermissionDenied(List<String> deniedPermissions) {
+                Toast.makeText(MainActivity.this, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+            }
+        };
+        TedPermission.with(this)
+                .setPermissionListener(permissionlistener)
+                .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
+                .setPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
+                .check();
+    }
+    private  void openImagePicker(){
+        TedBottomPicker.OnImageSelectedListener listener = new TedBottomPicker.OnImageSelectedListener() {
+            @Override
+            public void onImageSelected(Uri uri) {
+                try {
+                    bit = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
+                    img.setImageBitmap(bit);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        TedBottomPicker tedBottomPicker = new TedBottomPicker.Builder(MainActivity.this)
+                .setOnImageSelectedListener(listener)
+                .create();
+        tedBottomPicker.show(getSupportFragmentManager());
+    }
+
+    private void ghiNhanVien(){
+
+    }
+
+    private void docNhanVien(){
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +145,13 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Vui lòng chọn hình ảnh nhân viên", Toast.LENGTH_SHORT).show();
                     else{
                         NhanVien nv = new NhanVien(maso, ten, gioiTinh, donVi, bit);
-                        nv_list.add(nv);
+                        if(!nv_list.contains(nv)){
+                            nv_list.add(nv);
+                            Toast.makeText(MainActivity.this, "Thêm nhân viên thành công", Toast.LENGTH_SHORT).show();
+                        }else {
+                            Toast.makeText(MainActivity.this, "Thêm nhân viên thất bại", Toast.LENGTH_SHORT).show();
+
+                        }
 
                         NhanVienAdapter nhanVienAdapter = new NhanVienAdapter(MainActivity.this, R.layout.custom_list_view, nv_list);
                         lv_Nv.setAdapter(nhanVienAdapter);
@@ -116,56 +168,22 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
+            }
+        });
 
-//                ArrayList<String> lsItems = new ArrayList<>();
-//                for (NhanVien s: nv_list)
-//                    lsItems.add(s.toString());
-//                ArrayAdapter adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, android.R.id.text1, lsItems);
-//                ls_Nv.setAdapter(adapter);
-
+        lv_Nv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                System.out.println(lv_Nv.getAdapter().getItem(i));
+            }
+        });
+        btn_Sua.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
             }
         });
 
-    }
-
-
-
-    private void requestPermissions(){
-        PermissionListener permissionlistener = new PermissionListener() {
-            @Override
-            public void onPermissionGranted() {
-                openImagePicker();
-                Toast.makeText(MainActivity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onPermissionDenied(List<String> deniedPermissions) {
-                Toast.makeText(MainActivity.this, "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
-            }
-        };
-        TedPermission.with(this)
-                .setPermissionListener(permissionlistener)
-                .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
-                .setPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
-                .check();
-    }
-    private  void openImagePicker(){
-        TedBottomPicker.OnImageSelectedListener listener = new TedBottomPicker.OnImageSelectedListener() {
-            @Override
-            public void onImageSelected(Uri uri) {
-                try {
-                    bit = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
-                    img.setImageBitmap(bit);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        TedBottomPicker tedBottomPicker = new TedBottomPicker.Builder(MainActivity.this)
-                .setOnImageSelectedListener(listener)
-                .create();
-        tedBottomPicker.show(getSupportFragmentManager());
     }
 
 

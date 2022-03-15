@@ -59,6 +59,10 @@ public class NhanVien {
         this.bitmap = bitmap;
     }
 
+    public NhanVien(int maso) {
+        this.maso = maso;
+    }
+
     public NhanVien() {
     }
 
