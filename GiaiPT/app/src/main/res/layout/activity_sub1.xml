@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SubActivity1"
+    android:orientation="vertical">
+    <EditText
+        android:id="@+id/edit_HSA1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nhập Hệ Số A: "/>
+    <EditText
+        android:id="@+id/edit_HSB1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nhập Hệ Số B:"/>
+
+    <Button
+        android:id="@+id/btn_Submit1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SubMit"/>
+
+
+</LinearLayout>
