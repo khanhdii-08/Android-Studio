@@ -1,18 +1,12 @@
 package com.example.uidemo;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
-import android.content.ContentResolver;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -28,23 +22,23 @@ import android.widget.Toast;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
-import java.io.FileNotFoundException;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.List;
 
 import gun0912.tedbottompicker.TedBottomPicker;
 
 public class MainActivity extends AppCompatActivity {
-    private List<NhanVien> nv_list = new ArrayList<NhanVien>();
+
     private String[] dv_list;
     private String donVi;
     private ImageView img;
     private Bitmap bit =null;
-
-
+    private ListNhanVien ls_nv = new ListNhanVien();
+    private ListView lv_Nv;
     private void requestPermissions(){
         PermissionListener permissionlistener = new PermissionListener() {
             @Override
@@ -82,18 +76,56 @@ public class MainActivity extends AppCompatActivity {
         tedBottomPicker.show(getSupportFragmentManager());
     }
 
-    private void ghiNhanVien(){
-
+    public void saveSerializable(Object objectToSave){
+        try{
+            FileOutputStream fos = new FileOutputStream("danhSachNV.txt");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(objectToSave);
+            oos.flush();
+            oos.close();
+            fos.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
-    private void docNhanVien(){
+    private Object readSerializable() throws IOException {
+        Object objectToReturn = null;
+        try {
+            FileInputStream fis = new FileInputStream("danhSachNV.txt");
+            ObjectInputStream ois = new ObjectInputStream(fis);
 
+            objectToReturn = ois.readObject();
+
+            ois.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return objectToReturn;
+    }
+
+    public void upListView(){
+        try {
+            ls_nv = (ListNhanVien) readSerializable();
+            NhanVienAdapter nhanVienAdapter = new NhanVienAdapter(MainActivity.this, R.layout.custom_list_view, ls_nv.getAllNhanVien());
+            lv_Nv.setAdapter(nhanVienAdapter);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        try {
+            if(readSerializable() != null) {
+                System.out.println(readSerializable());
+                upListView();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         Button btn_Exit = findViewById(R.id.btn_Exits);
         EditText ed_ma = findViewById(R.id.id_ma);
@@ -109,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button btn_Chon = findViewById(R.id.btn_Chon);
 
-        ListView lv_Nv = findViewById(R.id.ls_view);
+        lv_Nv = findViewById(R.id.ls_view);
 
         Spinner sp_DonVi = findViewById(R.id.id_sp);
         dv_list = getResources().getStringArray(R.array.donvi_list);
@@ -145,15 +177,20 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Vui lòng chọn hình ảnh nhân viên", Toast.LENGTH_SHORT).show();
                     else{
                         NhanVien nv = new NhanVien(maso, ten, gioiTinh, donVi, bit);
-                        if(!nv_list.contains(nv)){
-                            nv_list.add(nv);
+                        if(ls_nv.addNhanVien(nv)){
+
                             Toast.makeText(MainActivity.this, "Thêm nhân viên thành công", Toast.LENGTH_SHORT).show();
-                        }else {
+                            try {
+//                                saveSerializable(ls_nv);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                System.out.println("Lỗi.....");
+                            }
+                        }
+                        else
                             Toast.makeText(MainActivity.this, "Thêm nhân viên thất bại", Toast.LENGTH_SHORT).show();
 
-                        }
-
-                        NhanVienAdapter nhanVienAdapter = new NhanVienAdapter(MainActivity.this, R.layout.custom_list_view, nv_list);
+                        NhanVienAdapter nhanVienAdapter = new NhanVienAdapter(MainActivity.this, R.layout.custom_list_view, ls_nv.getAllNhanVien());
                         lv_Nv.setAdapter(nhanVienAdapter);
 
                         ed_ma.setText("");

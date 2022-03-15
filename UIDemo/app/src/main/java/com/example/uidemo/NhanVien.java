@@ -2,9 +2,11 @@ package com.example.uidemo;
 
 import android.graphics.Bitmap;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Objects;
 
-public class NhanVien {
+public class NhanVien implements Serializable {
     private int maso;
     private String hoten;
     private String gioiTinh;

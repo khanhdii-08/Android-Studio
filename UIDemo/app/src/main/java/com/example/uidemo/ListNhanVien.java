@@ -1,13 +1,17 @@
 package com.example.uidemo;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class ListNhanVien {
+public class ListNhanVien implements Serializable {
     ArrayList<NhanVien> listNV;
 
     public ListNhanVien(){
         listNV = new ArrayList<NhanVien>();
+    }
+    public ArrayList<NhanVien> getAllNhanVien(){
+        return listNV;
     }
     public boolean addNhanVien(NhanVien nv){
         if(listNV.contains(nv))
