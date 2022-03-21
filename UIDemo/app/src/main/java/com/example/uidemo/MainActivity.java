@@ -1,12 +1,18 @@
 package com.example.uidemo;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,6 +25,8 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -27,6 +35,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import gun0912.tedbottompicker.TedBottomPicker;
@@ -37,8 +47,12 @@ public class MainActivity extends AppCompatActivity {
     private String donVi;
     private ImageView img;
     private Bitmap bit =null;
-    private ListNhanVien ls_nv = new ListNhanVien();
+    private ListNhanVien ls_nv;
     private ListView lv_Nv;
+
+    public MainActivity(){
+        ls_nv = new ListNhanVien();
+    }
     private void requestPermissions(){
         PermissionListener permissionlistener = new PermissionListener() {
             @Override
@@ -76,38 +90,44 @@ public class MainActivity extends AppCompatActivity {
         tedBottomPicker.show(getSupportFragmentManager());
     }
 
-    public void saveSerializable(Object objectToSave){
+    public void writeData(ArrayList<NhanVien> ls){
         try{
-            FileOutputStream fos = new FileOutputStream("danhSachNV.txt");
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(objectToSave);
-            oos.flush();
-            oos.close();
-            fos.close();
+            SharedPreferences myPrefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
+            SharedPreferences.Editor prefsEditor = myPrefs.edit();
+
+            Gson gson = new Gson();
+            String json = gson.toJson(ls);
+            System.out.println("json: " + json);
+            prefsEditor.putString("nhanvien", json);
+            prefsEditor.apply();
         }catch (Exception e){
             e.printStackTrace();
         }
     }
 
-    private Object readSerializable() throws IOException {
-        Object objectToReturn = null;
+    public ArrayList<NhanVien> readData() throws IOException {
+        ArrayList<NhanVien> ls = new ArrayList<>();
         try {
-            FileInputStream fis = new FileInputStream("danhSachNV.txt");
-            ObjectInputStream ois = new ObjectInputStream(fis);
-
-            objectToReturn = ois.readObject();
-
-            ois.close();
+            SharedPreferences myPrefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
+            Gson gson = new Gson();
+            String json;
+            json = myPrefs.getString("nhanvien", "");
+            Type type = new TypeToken < List < NhanVien >> () {}.getType();
+            if(json.length() > 0){
+                ls = gson.fromJson(json, type);
+                myPrefs.edit().apply();
+                Toast.makeText(MainActivity.this, "Đọc thành công", Toast.LENGTH_SHORT).show();
+            }else
+                Toast.makeText(MainActivity.this, "Đọc thất bại", Toast.LENGTH_SHORT).show();
         }catch (Exception e){
             e.printStackTrace();
         }
-        return objectToReturn;
+        return ls;
     }
 
-    public void upListView(){
+    public void upListView(ArrayList<NhanVien> ls){
         try {
-            ls_nv = (ListNhanVien) readSerializable();
-            NhanVienAdapter nhanVienAdapter = new NhanVienAdapter(MainActivity.this, R.layout.custom_list_view, ls_nv.getAllNhanVien());
+            NhanVienAdapter nhanVienAdapter = new NhanVienAdapter(MainActivity.this, R.layout.custom_list_view, ls);
             lv_Nv.setAdapter(nhanVienAdapter);
         }catch (Exception e){
             e.printStackTrace();
@@ -118,16 +138,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        try {
-            if(readSerializable() != null) {
-                System.out.println(readSerializable());
-                upListView();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        Button btn_Exit = findViewById(R.id.btn_Exits);
         EditText ed_ma = findViewById(R.id.id_ma);
         EditText ed_ten = findViewById(R.id.id_name);
         RadioGroup rg_GioiTinh = findViewById(R.id.radioGroup);
@@ -178,20 +189,12 @@ public class MainActivity extends AppCompatActivity {
                     else{
                         NhanVien nv = new NhanVien(maso, ten, gioiTinh, donVi, bit);
                         if(ls_nv.addNhanVien(nv)){
-
                             Toast.makeText(MainActivity.this, "Thêm nhân viên thành công", Toast.LENGTH_SHORT).show();
-                            try {
-//                                saveSerializable(ls_nv);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                System.out.println("Lỗi.....");
-                            }
                         }
                         else
                             Toast.makeText(MainActivity.this, "Thêm nhân viên thất bại", Toast.LENGTH_SHORT).show();
 
-                        NhanVienAdapter nhanVienAdapter = new NhanVienAdapter(MainActivity.this, R.layout.custom_list_view, ls_nv.getAllNhanVien());
-                        lv_Nv.setAdapter(nhanVienAdapter);
+                        upListView(ls_nv.getAllNhanVien());
 
                         ed_ma.setText("");
                         ed_ten.setText("");
@@ -223,5 +226,33 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.mn_ghi:{
+                if(ls_nv.getAllNhanVien().size() > 0){
+                    writeData(ls_nv.getAllNhanVien());
+                    Toast.makeText(MainActivity.this, "Ghi thành công", Toast.LENGTH_SHORT).show();
+                }else
+                    Toast.makeText(MainActivity.this, "Ghi thất bại", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case R.id.mn_doc:{
+                try {
+                    upListView(readData());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
