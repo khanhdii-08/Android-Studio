@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -90,6 +91,45 @@ public class MainActivity extends AppCompatActivity {
         tedBottomPicker.show(getSupportFragmentManager());
     }
 
+//    public void writeData(ArrayList<NhanVien> ls){
+//        try{
+//            String filename = "nhanvien.txt";
+//            Gson gson = new Gson();
+//            String json = gson.toJson(ls);
+//            FileOutputStream fout = openFileOutput(filename, Context.MODE_PRIVATE);
+//            fout.write(json.getBytes());
+//            fout.close();
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    public ArrayList<NhanVien> readData(){
+//        ArrayList<NhanVien> ls = new ArrayList<>();
+//        try {
+//            Gson gson = new Gson();
+//            String filename = "nhanvien.txt";
+//            String json = ""; int c;
+//            FileInputStream fin = openFileInput(filename);
+//
+//            StringBuffer sbuffer = new StringBuffer();
+//            int i;
+//            while ((i = fin.read()) != -1)
+//                sbuffer.append((char)i);
+//            fin.close();
+//            json = sbuffer.toString();
+//            Type type = new TypeToken < List < NhanVien >> () {}.getType();
+//            if(json.length() > 0){
+//                ls = gson.fromJson(json, type);
+//                Toast.makeText(MainActivity.this, "Đọc thành công", Toast.LENGTH_SHORT).show();
+//            }else
+//                Toast.makeText(MainActivity.this, "Đọc thất bại", Toast.LENGTH_SHORT).show();
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        return ls;
+//    }
+
     public void writeData(ArrayList<NhanVien> ls){
         try{
             SharedPreferences myPrefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
@@ -97,7 +137,6 @@ public class MainActivity extends AppCompatActivity {
 
             Gson gson = new Gson();
             String json = gson.toJson(ls);
-            System.out.println("json: " + json);
             prefsEditor.putString("nhanvien", json);
             prefsEditor.apply();
         }catch (Exception e){
@@ -105,17 +144,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public ArrayList<NhanVien> readData() throws IOException {
+    public ArrayList<NhanVien> readData(){
         ArrayList<NhanVien> ls = new ArrayList<>();
         try {
             SharedPreferences myPrefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
             Gson gson = new Gson();
             String json;
-            json = myPrefs.getString("nhanvien", "");
+            json = myPrefs.getString("nhanvien", null);
             Type type = new TypeToken < List < NhanVien >> () {}.getType();
             if(json.length() > 0){
                 ls = gson.fromJson(json, type);
-                myPrefs.edit().apply();
                 Toast.makeText(MainActivity.this, "Đọc thành công", Toast.LENGTH_SHORT).show();
             }else
                 Toast.makeText(MainActivity.this, "Đọc thất bại", Toast.LENGTH_SHORT).show();
@@ -246,8 +284,15 @@ public class MainActivity extends AppCompatActivity {
             }
             case R.id.mn_doc:{
                 try {
-                    upListView(readData());
-                } catch (IOException e) {
+                    System.out.println(readData());
+//                    upListView(readData());
+                    ArrayList<String> listItems = new ArrayList<>();
+                    for (NhanVien s : readData()){
+                        listItems.add(s.toString());
+                    }
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, android.R.id.text1, listItems);
+                    lv_Nv.setAdapter(adapter);
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
