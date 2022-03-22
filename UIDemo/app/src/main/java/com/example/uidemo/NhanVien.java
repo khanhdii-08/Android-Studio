@@ -1,32 +1,38 @@
 package com.example.uidemo;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.widget.ImageView;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Objects;
-
-public class NhanVien implements Serializable {
-    private int maso;
-    private String hoten;
+public class NhanVien {
+    private int maNV;
+    private String name;
     private String gioiTinh;
     private String donVi;
-    private Bitmap bitmap;
+    private Bitmap img;
 
-    public int getMaso() {
-        return maso;
+    public Bitmap getImg() {
+        return img;
     }
 
-    public void setMaso(int maso) {
-        this.maso = maso;
+    public void setImg(Bitmap img) {
+        this.img = img;
     }
 
-    public String getHoten() {
-        return hoten;
+    public int getMaNV() {
+        return maNV;
     }
 
-    public void setHoten(String hoten) {
-        this.hoten = hoten;
+    public void setMaNV(int maNV) {
+        this.maNV = maNV;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getGioiTinh() {
@@ -45,50 +51,33 @@ public class NhanVien implements Serializable {
         this.donVi = donVi;
     }
 
-    public Bitmap getBitmap() {
-        return bitmap;
-    }
-
-    public void setBitmap(Bitmap bitmap) {
-        this.bitmap = bitmap;
-    }
-
-    public NhanVien(int maso, String hoten, String gioiTinh, String donVi, Bitmap bitmap) {
-        this.maso = maso;
-        this.hoten = hoten;
+    public NhanVien(int maNV, String name, String gioiTinh, String donVi) {
+        this.maNV = maNV;
+        this.name = name;
         this.gioiTinh = gioiTinh;
         this.donVi = donVi;
-        this.bitmap = bitmap;
     }
 
-    public NhanVien(int maso) {
-        this.maso = maso;
+    public NhanVien(int maNV, String name, String gioiTinh, String donVi, Bitmap img) {
+        this.maNV = maNV;
+        this.name = name;
+        this.gioiTinh = gioiTinh;
+        this.donVi = donVi;
+        this.img = img;
     }
 
     public NhanVien() {
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        NhanVien nhanVien = (NhanVien) o;
-        return maso == nhanVien.maso;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(maso);
-    }
-
-    @Override
-    public String toString() {
-        return "NhanVien{" +
-                "maso=" + maso +
-                ", hoten='" + hoten + '\'' +
-                ", gioiTinh='" + gioiTinh + '\'' +
-                ", donVi='" + donVi + '\'' +
-                ", bitmap=" + bitmap +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "NhanVien{"+
+//                img + ","+
+//                maNV +
+//                ","  + name  +
+//                "," + gioiTinh  +
+//                ","  + donVi  +
+//
+//                "}";
+//    }
 }
