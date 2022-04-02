@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/thoat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="thoat"
+        android:layout_gravity="right"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Danh sách điện thoại"
+        android:textSize="20dp"
+        android:layout_marginBottom="20dp"/>
+    <GridView
+        android:id="@+id/gridView_DienThoai"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:numColumns="2"
+        android:horizontalSpacing="16dp"
+        android:verticalSpacing="16dp"/>
+
+</LinearLayout>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/image_DT_list"
+            android:layout_width="100dp"
+            android:layout_height="70dp"
+            android:layout_gravity="left"
+            app:srcCompat="@drawable/iphone12do" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+
+            <TextView
+                android:id="@+id/title_DT_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="left"
+                android:text="iPhone 12 - Đỏ"
+                android:textSize="20dp"/>
+
+            <TextView
+                android:id="@+id/price_DT_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="left"
+                android:text="19.490.000 VND"
+                android:textSize="20dp"
+                android:textColor="#DA0404"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>
