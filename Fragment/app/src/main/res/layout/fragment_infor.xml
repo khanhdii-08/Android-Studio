@@ -5,46 +5,56 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/image_DT_infor"
-        android:layout_width="200dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center"
-        app:srcCompat="@drawable/iphone12do" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/title_DT_infor"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:textSize="20dp"
-        android:text="iPhone 12 - Đỏ"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/image_DT_infor"
+                android:layout_width="200dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/iphone12do" />
 
-    <TextView
-        android:id="@+id/price_DT_infor"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:textColor="#FF1100"
-        android:textSize="30dp"
-        android:text="19.490.000 VND"/>
+            <TextView
+                android:id="@+id/title_DT_infor"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:textSize="20dp"
+                android:text="iPhone 12 - Đỏ"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Chi tiết sản sản phẩm"
-        android:textColor="#FF0A0A"
-        android:textSize="20dp" />
-    <TextView
-        android:id="@+id/tv_ct_infor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="iPhone 12 256 GB được Apple cho ra mắt đã đem đến làn sóng mạnh mẽ đối với những ai yêu công nghệ nói chung và “fan hâm mộ” trung thành của iPhone nói riêng, với con chip mạnh, dung lượng lưu trữ lớn cùng thiết kế toàn diện và khả năng hiển thị hình ảnh xuất sắc.\n
+            <TextView
+                android:id="@+id/price_DT_infor"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:textColor="#FF1100"
+                android:textSize="30dp"
+                android:text="19.490.000 VND"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Chi tiết sản sản phẩm"
+                android:textColor="#FF0A0A"
+                android:textSize="20dp" />
+            <TextView
+                android:id="@+id/tv_ct_infor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="iPhone 12 256 GB được Apple cho ra mắt đã đem đến làn sóng mạnh mẽ đối với những ai yêu công nghệ nói chung và “fan hâm mộ” trung thành của iPhone nói riêng, với con chip mạnh, dung lượng lưu trữ lớn cùng thiết kế toàn diện và khả năng hiển thị hình ảnh xuất sắc.\n
 
     Màn hình:OLED6.1 Super Retina XDR Hệ điều hành:iOS 14 Camera sau:2 camera 12 MP Camera trước:12 MP Chip:Apple A14 Bionic RAM:4 GB Bộ nhớ trong:256 GB SIM:1 Nano SIM 1 eSIMHỗ trợ 5G Pin:2815 mAh, Sạc:20W\n
 
     Bộ sản phẩm gồm: Hộp, Sách hướng dẫn, Cây lấy sim, Cáp Lightning - Type C"/>
 
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
