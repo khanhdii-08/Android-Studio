@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".MainActivityInfor"
     android:orientation="vertical">
 
-    <GridView
-        android:id="@+id/gridView_DienThoai"
+    <fragment
+        android:id="@+id/fragmentInfor2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:numColumns="1"
-        android:horizontalSpacing="16dp"
-        android:verticalSpacing="16dp"/>
+        android:name="com.example.fragment.FragmentInfor" />
 
 </LinearLayout>

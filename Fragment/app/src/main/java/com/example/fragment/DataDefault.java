@@ -3,9 +3,15 @@ package com.example.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SetData {
-    public List<DienThoai> setDataDefault(){
-        List<DienThoai> ls = new ArrayList<DienThoai>();
+public class DataDefault {
+    List<DienThoai> ls = null;
+    public List<DienThoai> getDataDefault(){
+        setDataDefault();
+        return ls;
+    }
+
+    public void setDataDefault(){
+        ls = new ArrayList<DienThoai>();
 
         DienThoai ip12do = new DienThoai("iPhone 12 - Đỏ", R.drawable.iphone12do, "19.490.000", "iPhone 12 256 GB được Apple cho ra mắt đã đem đến làn sóng mạnh mẽ đối với những ai yêu công nghệ nói chung và “fan hâm mộ” trung thành của iPhone nói riêng, với con chip mạnh, dung lượng lưu trữ lớn cùng thiết kế toàn diện và khả năng hiển thị hình ảnh xuất sắc.\n" +
                 "\n" +
@@ -56,7 +62,6 @@ public class SetData {
         ls.add(ip12promaxbac);
         ls.add(ip12promaxxam);
         ls.add(ip12promaxxanh);
-        return ls;
     }
 
 }

@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Fragment">
         <activity
-            android:name=".MainActivityCT"
+            android:name=".MainActivityInfor"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

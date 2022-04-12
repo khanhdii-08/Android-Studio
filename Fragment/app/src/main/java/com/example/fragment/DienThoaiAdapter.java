@@ -1,7 +1,6 @@
 package com.example.fragment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +18,6 @@ import java.util.List;
 public class DienThoaiAdapter extends ArrayAdapter {
     Activity context;
     List<DienThoai> listPhone;
-
     public DienThoaiAdapter(@NonNull Activity context, List<DienThoai> listPhone) {
         super(context, R.layout.custom, listPhone);
         this.context = context;
@@ -28,41 +26,18 @@ public class DienThoaiAdapter extends ArrayAdapter {
 
 
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent){
-        View row = convertView;
         LayoutInflater inflater = context.getLayoutInflater();
-        if (convertView == null)
-            row = inflater.inflate(R.layout.custom, null, false);
+        View  view = inflater.inflate(R.layout.custom, null, false);
 
-        ImageView imageView = row.findViewById(R.id.image_DT);
-        TextView tvTitle = row.findViewById(R.id.title_DT);
-        TextView tvPrice = row.findViewById(R.id.price_DT);
-        Button buttonCT =  row.findViewById(R.id.btn_CT);
-
-        buttonCT.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                clickGridView(position);
-            }
-        });
-
-        row.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                clickGridView(position);
-            }
-        });
+        ImageView imageView = view.findViewById(R.id.image_DT);
+        TextView tvTitle = view.findViewById(R.id.title_DT);
+        TextView tvPrice = view.findViewById(R.id.price_DT);
 
         imageView.setImageResource(listPhone.get(position).getImage());
         tvTitle.setText(listPhone.get(position).getName());
         tvPrice.setText(listPhone.get(position).getPrice()+" VND");
 
-        return row;
-    }
-
-    private void clickGridView(int i){
-        Intent intent = new Intent(context, MainActivityCT.class);
-        intent.putExtra("index", i);
-        context.startActivity(intent);
+        return view;
     }
 
 }

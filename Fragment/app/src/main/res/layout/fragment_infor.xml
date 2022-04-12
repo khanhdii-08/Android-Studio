@@ -35,9 +35,9 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
+                android:text="19.490.000 VND"
                 android:textColor="#FF1100"
-                android:textSize="30dp"
-                android:text="19.490.000 VND"/>
+                android:textSize="30dp" />
 
             <TextView
                 android:layout_width="match_parent"

@@ -3,6 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/BAI TAP/Java/Android-Studio/Fragment/app/src/main/res/layout-land/activity_main.xml" value="0.25" />
+        <entry key="..\:/BAI TAP/Java/Android-Studio/Fragment/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/BAI TAP/Java/Android-Studio/Fragment/app/src/main/res/layout/activity_main_infor.xml" value="0.25" />
+        <entry key="..\:/BAI TAP/Java/Android-Studio/Fragment/app/src/main/res/layout/custom.xml" value="0.16296296296296298" />
+        <entry key="..\:/BAI TAP/Java/Android-Studio/Fragment/app/src/main/res/layout/fragment_grid.xml" value="0.25" />
+        <entry key="..\:/BAI TAP/Java/Android-Studio/Fragment/app/src/main/res/layout/fragment_infor.xml" value="0.25" />
+        <entry key="..\:/BAI TAP/Java/Android-Studio/Fragment/app/src/main/res/layout/fragment_list.xml" value="0.25" />
+        <entry key="..\:/BAI TAP/Java/Android-Studio/Fragment/app/src/main/res/layout/row_custom.xml" value="0.25" />
         <entry key="..\:/DUY/Android-Studio/Fragment/app/src/main/res/layout/activity_main_ct.xml" value="0.1838768115942029" />
         <entry key="..\:/DUY/Android-Studio/Fragment/app/src/main/res/layout/fragment_infor.xml" value="0.1838768115942029" />
         <entry key="..\:/DUY/Java_Android/Fragment/app/src/main/res/layout-land/activity_main.xml" value="0.21516754850088182" />

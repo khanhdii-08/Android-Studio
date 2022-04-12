@@ -1,6 +1,8 @@
 package com.example.fragment;
 
-public class DienThoai {
+import java.io.Serializable;
+
+public class DienThoai implements Serializable {
     private String name;
     private Integer image;
     private String price;
