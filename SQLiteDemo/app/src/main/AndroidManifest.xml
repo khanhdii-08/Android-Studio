@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SQLiteDemo">
         <activity
+            android:name=".BoockActivity"
+            android:exported="false" />
+        <activity
             android:name=".AuthorActivity"
             android:exported="false" />
         <activity
