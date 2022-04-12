@@ -48,11 +48,13 @@
             android:layout_marginRight="10dp"
             android:text="Save"/>
         <Button
+            android:id="@+id/id_Delete_Book"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:text="delete"/>
         <Button
+            android:id="@+id/id_Update_Book"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"

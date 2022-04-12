@@ -13,7 +13,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class BoockActivity extends AppCompatActivity {
-
+    ArrayList<String> stringArrayList;
+    ArrayList<Book> list_Book;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,8 +44,8 @@ public class BoockActivity extends AppCompatActivity {
         btn_Select.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ArrayList<Book> list_Book;
-                ArrayList<String> stringArrayList = new ArrayList<>();
+
+                stringArrayList = new ArrayList<>();
                 if(!ed_Id.getText().toString().trim().equals("")){
                     Book book = dbHelper.getBookId(Integer.parseInt(ed_Id.getText().toString().trim()));
                     if(book != null){
@@ -65,6 +66,45 @@ public class BoockActivity extends AppCompatActivity {
 
                 ArrayAdapter adapter = new ArrayAdapter(BoockActivity.this, android.R.layout.simple_list_item_1, stringArrayList);
                 gridViewListBook.setAdapter(adapter);
+            }
+        });
+
+        Button btn_Delete = findViewById(R.id.id_Delete_Book);
+        btn_Delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    int id = Integer.parseInt(ed_Id.getText().toString());
+                    if(dbHelper.deleteBook(id)){
+                        Toast.makeText(BoockActivity.this, "Xoa Thanh Cong", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(BoockActivity.this, "Xoa That Bai", Toast.LENGTH_SHORT).show();
+                    }
+
+                }catch (Exception exception){
+                    exception.printStackTrace();
+                    Toast.makeText(BoockActivity.this, "Loi dinh dang", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        Button btn_Update = findViewById(R.id.id_Update_Book);
+        btn_Update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    int id = Integer.parseInt(ed_Id.getText().toString());
+                    String title = ed_Title.getText().toString();
+                    int id_author = Integer.parseInt(ed_Author_Book.getText().toString());
+                    Book book = new Book(id, title, id_author);
+                    if(dbHelper.updateBook(book))
+                        Toast.makeText(BoockActivity.this, "Cap Nhat Thanh Cong", Toast.LENGTH_SHORT).show();
+                    else
+                        Toast.makeText(BoockActivity.this, "Cap Nhat Thanh Cong", Toast.LENGTH_SHORT).show();
+                }catch (Exception e){
+                    e.printStackTrace();
+                    Toast.makeText(BoockActivity.this, "Loi dinh dang", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

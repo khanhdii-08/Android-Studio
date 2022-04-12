@@ -78,6 +78,24 @@ public class DBHelper extends SQLiteOpenHelper {
         return author;
     }
 
+    public boolean deleteAuthor(String id){
+        SQLiteDatabase db = getWritableDatabase();
+        return db.delete("Author", "id = " + id, null) > 0;
+    }
+
+    public boolean updateAuthor(Author author){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues content = new ContentValues();
+        content.put("name",author.getName());
+        content.put("address",author.getAddress());
+        content.put("email",author.getEmail());
+        String id = String.valueOf(author.getIdAuthor());
+        int rs = db.update("Authors",content,"id=?", new String[]{id});
+
+        db.close();
+        return rs>0;
+    }
+
     public int insertBook(Book book){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues content = new ContentValues();
@@ -119,6 +137,42 @@ public class DBHelper extends SQLiteOpenHelper {
             db.close();
         }
         return book;
+    }
+
+    public boolean deleteBook(int id){
+        SQLiteDatabase db = getWritableDatabase();
+        return db.delete("Books", "id = " + id, null) > 0;
+    }
+
+    public boolean updateBook(Book book){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("title", book.getTitle());
+        contentValues.put("id_author", book.getIdAuthor());
+        String id = String.valueOf(book.getId());
+        return db.update("Books", contentValues, "id = ?", new String[]{id}) > 0;
+    }
+
+
+    public ArrayList<Book> getBookWhereIdAuthor(int idAuthor){
+        ArrayList<Book> listBook = new ArrayList<>();
+
+        String sql ="select * from Books where id_author="+idAuthor;
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.rawQuery(sql,null);
+        if(cursor!=null){
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()){
+                Book book = new Book(cursor.getInt(0),cursor.getString(1),cursor.getInt(2));
+
+                listBook.add(book);
+                cursor.moveToNext();
+            }
+            cursor.close();
+            db.close();
+        }
+
+        return listBook;
     }
 
 
