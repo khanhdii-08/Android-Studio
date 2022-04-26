@@ -19,12 +19,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("CREATE TABLE Authors(id integer primary key, name text, address text, email text);");
         sqLiteDatabase.execSQL("CREATE TABLE Books(id integer primary key, title text, " +
-                "id_author integer not null constraint id_author references Author(id) ON DELETE CASCADE ON UPDATE CASCADE);");
-    }
-
-    @Override
-    public void onConfigure(SQLiteDatabase db) {
-        super.onConfigure(db);
+                "id_author integer not null constraint id_author references Authors(id) ON DELETE CASCADE ON UPDATE CASCADE);");
     }
 
     @Override
@@ -33,6 +28,13 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS Authors");
         onCreate(sqLiteDatabase);
     }
+
+    @Override
+    public void onConfigure(SQLiteDatabase db) {
+        db.setForeignKeyConstraintsEnabled(true);
+        super.onConfigure(db);
+    }
+
     public int insertAuthor(Author author){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues content = new ContentValues();
@@ -80,7 +82,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public boolean deleteAuthor(String id){
         SQLiteDatabase db = getWritableDatabase();
-        return db.delete("Author", "id = " + id, null) > 0;
+        int n = db.delete("Author", "id = " + id, null);
+        return n>0;
     }
 
     public boolean updateAuthor(Author author){
@@ -91,7 +94,6 @@ public class DBHelper extends SQLiteOpenHelper {
         content.put("email",author.getEmail());
         String id = String.valueOf(author.getIdAuthor());
         int rs = db.update("Authors",content,"id=?", new String[]{id});
-
         db.close();
         return rs>0;
     }
@@ -174,6 +176,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
         return listBook;
     }
+
+
 
 
 }
